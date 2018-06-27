@@ -192,17 +192,22 @@
 This documentation shows and explains how the authors completed the final exercise of the course "Computer Graphics". The final exercise is about working on a project related to computer graphics and physical modeling. For this project the authors decided to create a complete pinball game with self-made 3D-objects with textures and working physics. For this the following tools were used: 3ds Max for modeling the 3D objects, ZBrush for Texturing and Unity for the gameplay. 
 
 \section{Modeling \& Texturing}
-The first thing to do is to create the 3D objects in 3ds Max. For that a plan of a pinball field is used to draw the shapes with splines in 2D and then rise them up to the specific height the object should get (see figure \ref{fig:3dmodel}).
+The first thing to do is to create the 3D objects in 3ds Max. For that a plan of a pinball field is used to draw the shapes with splines in 2D and then extend them in the z axis to the specific height the object should get (see figure \ref{fig:3dmodel}).
 
 To get textures on an object a UV map is created in Adobe Photoshop (see figure \ref{fig:texturesfor3dmodel}). Now the objects get mapped to the UV map (see figure \ref{fig:texturing}).
 
 After the objects are done they will be exported as .fbx files that contains the object with its texture. The benefit of this compared to other file types is that it's not needed to connect model and texture in Unity later.
 
 \section{Implementation into Unity}
+Now the Unity project can be created. All the .fbx files will be put into the Unity project folder and then inside the Unity Editor dragged and dropped into an empty Scene. After the objects are arranged like they should be the next thing to do is making the flippers and plunger trigger controllable, so the player can play the actual pinball.
+
+The plunger trigger is a gameobject with a box collider that is needed to know when the ball is in an area that it can be pushed. So when the ball is inside the box collider the player can press the space bar to add a specific amount of upwards force depending on how long the player presses. When the ball left the collider nothing will happen when space is pressed.
+
+For the flippers there is a gameobject for each flipper. They have a hinge joint that tells where the flipper will rotate around when the player presses a key, the A key for the left flipper and D for the right one. When the player presses A or D that flipper will rotate to the specific angle and when the key is released it will go back to its resting position.
 
 \section{Conclusion}
-With the .fbx files that were created in 3ds Max it was pretty easy to make the pinball field but unfortunately there were problems with the paddles and the ball.
-The paddles were the typical Super Mario pipes in the first version so they had this additional edge at the end of the pipe. This edge made the ball to stuck on it, so the paddle needed to be changed. Because changing the pipes collision or look wasn't an option for the team it got changed to a traditional look like it is in most pinball games.
+With the .fbx files that were created in 3ds Max it was pretty easy to make the pinball field but unfortunately there were problems with the flippers and the ball.
+The flippers were the typical Super Mario pipes in the first version so they had this additional edge at the end of the pipe. This edge made the ball to stuck on it, so the flipper needed to be changed. Because changing the pipes collision or look wasn't an option for the team it got changed to a traditional look like it is in most pinball games.
 
 Another problem was and still is the physics. The ball rolls down the field way too fast and doesn't get up much before it falls down again. Probably there is a constant value that needs to be changed but it couldn't be found which one yet.
 
@@ -264,7 +269,7 @@ References:
 \begin{wrapfigure}{R}{\textwidth}
 	\centering
 	\includegraphics[width=0.90\textwidth]{pinballinprogress.jpg}
-	\caption{A work in progress screenshot of the pinball}
+	\caption{A work in progress screenshot of the pinball field}
 	\label{fig:pinballinprogress}
 	\vspace{0.1cm}
 \end{wrapfigure}
@@ -274,6 +279,14 @@ References:
 	\includegraphics[width=0.90\textwidth]{goomba.jpg}
 	\caption{A goomba character as collidable object}
 	\label{fig:goomba}
+	\vspace{0.1cm}
+\end{wrapfigure}
+
+\begin{wrapfigure}{R}{\textwidth}
+	\centering
+	\includegraphics[width=0.90\textwidth]{final.jpg}
+	\caption{The final pinball version}
+	\label{fig:final}
 	\vspace{0.1cm}
 \end{wrapfigure}
 
