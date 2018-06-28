@@ -75,6 +75,9 @@
 \usepackage{circuitikz}
 \usepackage{listings}
 
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+
 %%%%%%%%%%
 % Colors %
 %%%%%%%%%%
@@ -201,28 +204,67 @@ After the objects are done they will be exported as .fbx files that contains the
 \section{Implementation into Unity}
 Now the Unity project can be created. All the .fbx files will be put into the Unity project folder and then inside the Unity Editor dragged and dropped into an empty Scene. After the objects are arranged like they should be the next thing to do is making the flippers and plunger trigger controllable, so the player can play the actual pinball.
 
-The plunger trigger is a gameobject with a box collider that is needed to know when the ball is in an area that it can be pushed. So when the ball is inside the box collider the player can press the space bar to add a specific amount of upwards force depending on how long the player presses. When the ball left the collider nothing will happen when space is pressed.
+The plunger trigger is a gameobject with a box collider that is needed to know when the ball is in an area that it can be pushed. So when the ball is inside the box collider the player can press the space bar to add a specific amount of upwards force depending on how long the player presses. When the ball left the collider nothing will happen when space is pressed and the force will reset to 0.
 
-For the flippers there is a gameobject for each flipper. They have a hinge joint that tells where the flipper will rotate around when the player presses a key, the A key for the left flipper and D for the right one. When the player presses A or D that flipper will rotate to the specific angle and when the key is released it will go back to its resting position.
+\begin{algorithm}
+\caption{Plunger Trigger}\label{fig:code1}
+\begin{algorithmic}[1]
+\State $\textit{minPower} \gets 0$
+\State $\textit{maxPower} \gets 100$
+\State $\textit{stepPower} \gets 5$
+\Procedure{Update}{}
+\If{$\textit{AnyBallInTrigger}$} 
+\If{$\textit{SpaceKeyIsPressed}$} 
+\If{$\textit{power} <= \textit{maxPower}$} 
+\State $\textit{power} \gets \textit{power} + \textit{stepPower} * \textit{deltaTime}$
+\EndIf 
+\EndIf 
+\If{$\textit{SpaceKeyIsReleased}$} 
+\State $\textit{ballForce} \gets \textit{power}$
+\EndIf
+\EndIf
+\EndProcedure
+\Procedure{OnTriggerExit}{}
+\State $\textit{power} \gets \textit{minPower}$
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+
+For the flippers there is a gameobject for each flipper. They have a hinge joint that tells where the flipper will rotate around when the player presses a key, the A key for the left flipper and D for the right one. When the player presses A or D that flipper will rotate to the specific angle and when the key is released it will go back to its resting position. The controls are defined in the input menu of Unity project settings. There are controls for the flippers that are used for the scripts.
+
+\begin{algorithm}
+\caption{Flipper}\label{fig:code1}
+\begin{algorithmic}[1]
+\State $\textit{restPosition} \gets 0$
+\State $\textit{pressPosition} \gets 60$
+\Procedure{Update}{}
+\If{$\textit{flipperKeyIsPressed}$} 
+\State $\textit{flipperRotation} \gets \textit{pressPosition}$
+\Else
+\State $\textit{flipperRotation} \gets \textit{restPosition}$
+\EndIf 
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
 
 \section{Conclusion}
 With the .fbx files that were created in 3ds Max it was pretty easy to make the pinball field but unfortunately there were problems with the flippers and the ball.
 The flippers were the typical Super Mario pipes in the first version so they had this additional edge at the end of the pipe. This edge made the ball to stuck on it, so the flipper needed to be changed. Because changing the pipes collision or look wasn't an option for the team it got changed to a traditional look like it is in most pinball games.
-
-Another problem was and still is the physics. The ball rolls down the field way too fast and doesn't get up much before it falls down again. Probably there is a constant value that needs to be changed but it couldn't be found which one yet.
+Another problem was the physics. The ball rolled down the field way too fast and didn't get up much before it fell down again.
 
 \section{Acknowledgements \& References}
 Used Software:
 \begin{itemize}
-\item Adobe Photoshop CC
-\item 3ds Max
-\item Unity 2018.1.4f1
+\item Adobe Photoshop CC 2018
+\item 3ds Max 2017
+\item Unity 2018.1
 \item Visual Studio 2017
 \end{itemize}
 
 References:
 \begin{itemize}
-\item Super Mario graphics: \href{https://google.de/}{Link}
+\item Super Mario graphics, all rights to Nintendo Co., Ltd.
+\item Video Tutorial on how to make pinball flippers: \href{https://www.youtube.com/watch?v=y7WgV8-yfcI}{\nolinkurl{youtube.com/watch?v=y7WgV8-yfcI}}
 \end{itemize}
 
 
